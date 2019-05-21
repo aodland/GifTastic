@@ -1,0 +1,126 @@
+<!doctype html>
+<head>
+  <title>App</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/reset.css">
+  <link rel="stylesheet" href="assets/css/style.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+  <script src="assets/js/app.js"></script>
+
+</head>
+
+<body>
+	<div class="content">
+    <h1>Hello world!</h1>
+    
+    
+    <div id="buttons-view"></div>
+
+    <form id="Gif-form">
+      <label for="Gif-input"></label>
+      <input type="text" id="Gif-input"><br>
+
+     
+      <input id="add-Gif" type="submit" value="Search">
+    </form>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      var Gifs = ["Rain", "Hail", "Snow", "Forest"];
+      
+      function renderButtons() {
+
+       
+        $("#buttons-view").empty();
+
+    
+        for (var i = 0; i < Gifs.length; i++) {
+
+
+          var a = $("<button>");
+         
+          a.addClass("Gif");
+  
+          a.attr("data-name", Gifs[i]);
+          a.text(Gifs[i]);
+         
+          $("#buttons-view").append(a);
+        }
+      }
+
+      
+      $("#add-Gif").on("click", function(event) {
+
+        event.preventDefault();
+
+        
+        var Gif = $("#Gif-input").val().trim();
+       
+        Gifs.push(Gif);
+
+       
+        renderButtons();
+      });
+
+     
+      renderButtons();
+    </script>
+  </div>
+  </div>
+  <div id="gifs-appear-here">
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      
+      $("button").on("click", function(Gifs) {
+        var animal = $(this).attr("data-animal");
+  
+        
+        var queryURL = "https://api.giphy.com/v1/gifs/search?q=" +
+          animal + "&api_key=0i5h6Vq4aQRAfPgXg8OSBPQipa2v61DH&limit=10";
+  
+        
+        $.ajax({
+          url: queryURL,
+          method: "GET"
+        })
+        
+          .then(function(response) {
+            console.log(queryURL);
+  
+            console.log(response);
+        
+            var results = response.data;
+  
+            
+            for (var i = 0; i < results.length; i++) {
+  
+            
+              var animalDiv = $("<div>");
+  
+              
+                
+              var p = $("<p>").text("Rating: " + results[i].rating);
+  
+              
+              var animalImage = $("<img>");
+            
+              animalImage.attr("src", results[i].images.fixed_height.url);
+  
+            
+              animalDiv.append(p);
+              animalDiv.append(animalImage);
+  
+            
+              $("#gifs-appear-here").prepend(animalDiv);
+            }
+          });
+      });
+    </script>
+</body>
+
+</html>
